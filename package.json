@@ -13,7 +13,7 @@
     "install-gladys-bluetooth": "cd bluetooth && npm i",
     "install-gladys": "cd ./gladys/server/services/bluetooth && npm i",
     "postinstall": "npm run prepare-gladys && npm run get-gladys && npm run uncompress-gladys && npm run install-gladys",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,8 @@
   },
   "homepage": "https://github.com/atrovato/gladys-bluetooth-analyzer#readme",
   "dependencies": {
+    "colors": "^1.4.0",
+    "prompts": "^2.4.0",
     "tracer": "^1.1.4"
   }
 }
