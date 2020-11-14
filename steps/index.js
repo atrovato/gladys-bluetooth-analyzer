@@ -2,14 +2,13 @@ const { quit } = require('./quit');
 const { welcome } = require('./welcome');
 const { serviceSelection } = require('./serviceSelection');
 const { scanPeripherals } = require('./scanPeripherals');
-
-const gladys = require('../utils/gladys');
-const BluetoothManager = require('../gladys/server/services/bluetooth/lib');
+const { listPeripherals } = require('./listPeripherals');
 
 const STEP_KEYS = {
   WELCOME: 'welcome',
   SERVICE_SELECTION: 'service_selection',
   SCAN_PERIPHERALS: 'scan_peripherals',
+  LIST_PERIPHERALS: 'list_peripherals',
 };
 
 const STEPS = {
@@ -23,6 +22,10 @@ const STEPS = {
   },
   [STEP_KEYS.SCAN_PERIPHERALS]: {
     run: scanPeripherals,
+    next: STEP_KEYS.LIST_PERIPHERALS,
+  },
+  [STEP_KEYS.LIST_PERIPHERALS]: {
+    run: listPeripherals,
   },
 };
 
