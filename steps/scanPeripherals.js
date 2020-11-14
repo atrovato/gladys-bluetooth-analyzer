@@ -15,7 +15,10 @@ const scanPeripherals = async (executor) => {
     quit();
   }
 
-  return executor.bluetooth.scan(true);
+  executor.startLoading('Scanning for devices');
+  await executor.bluetooth.scan(true);
+  executor.stopLoading();
+  return;
 };
 
 module.exports = {

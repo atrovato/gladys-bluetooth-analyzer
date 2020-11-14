@@ -1,3 +1,5 @@
+const loading = require('loading-cli');
+
 const { quit } = require('./quit');
 const { welcome } = require('./welcome');
 const { serviceSelection } = require('./serviceSelection');
@@ -50,6 +52,14 @@ class StepExecutor {
     this.running = true;
     this.currentStep = STEPS[STEP_KEYS.WELCOME];
     return this.runAndNext();
+  }
+
+  async startLoading(text = 'Loading') {
+    this.loading = loading({ text, frames: ['◐', '◓', '◑', '◒'], interval: 200 }).start();
+  }
+
+  async stopLoading() {
+    this.loading.stop();
   }
 
   quit(message) {
