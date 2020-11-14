@@ -26,7 +26,8 @@ const listPeripherals = async (executor) => {
   });
 
   if (!devices.length) {
-    quit(colors.bold.red('No Bluetooth devices detected!'));
+    console.log(colors.bold.red('No Bluetooth devices detected!'));
+    return { previousStep: true };
   }
 
   const { device } = await prompts([
@@ -39,7 +40,19 @@ const listPeripherals = async (executor) => {
   ]);
 
   if (!device) {
-    quit();
+    const { previousStep } = await prompts([
+      {
+        type: 'confirm',
+        name: 'previousStep',
+        message: 'Your device is not here, do you want to scan again?',
+      },
+    ]);
+
+    if (previousStep) {
+      return { previousStep };
+    } else {
+      quit();
+    }
   }
 
   return device;

@@ -28,12 +28,14 @@ const STEPS = {
   },
   [STEP_KEYS.LIST_PERIPHERALS]: {
     run: listPeripherals,
+    previous: STEP_KEYS.SCAN_PERIPHERALS,
   },
 };
 
 class StepExecutor {
   constructor(bluetooth) {
     this.bluetooth = bluetooth;
+    this.results = {};
   }
 
   async runAndNext() {
@@ -41,16 +43,22 @@ class StepExecutor {
       this.quit();
     }
 
-    const result = await this.currentStep.run(this);
+    const step = STEPS[this.currentStep];
+    const result = await step.run(this);
 
-    this.currentStep = STEPS[this.currentStep.next];
-    this.lastResult = result;
+    this.results[this.currentStep] = result;
+    if (result && result.previousStep) {
+      this.currentStep = step.previous;
+    } else {
+      this.currentStep = step.next;
+    }
+
     return this.runAndNext();
   }
 
   async run() {
     this.running = true;
-    this.currentStep = STEPS[STEP_KEYS.WELCOME];
+    this.currentStep = STEP_KEYS.WELCOME;
     return this.runAndNext();
   }
 
