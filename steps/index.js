@@ -1,16 +1,21 @@
 const loading = require('loading-cli');
+const colors = require('colors');
 
 const { quit } = require('./quit');
 const { welcome } = require('./welcome');
 const { serviceSelection } = require('./serviceSelection');
 const { scanPeripherals } = require('./scanPeripherals');
 const { listPeripherals } = require('./listPeripherals');
+const { explorePeripheral } = require('./explorePeripheral');
+const { executeService } = require('./executeService');
 
 const STEP_KEYS = {
   WELCOME: 'welcome',
   SERVICE_SELECTION: 'service_selection',
   SCAN_PERIPHERALS: 'scan_peripherals',
   LIST_PERIPHERALS: 'list_peripherals',
+  EXPLORE_PERIPHERAL: 'explore_peripheral',
+  EXECUTE_SERVICE: 'execute_service',
 };
 
 const STEPS = {
@@ -29,13 +34,22 @@ const STEPS = {
   [STEP_KEYS.LIST_PERIPHERALS]: {
     run: listPeripherals,
     previous: STEP_KEYS.SCAN_PERIPHERALS,
+    next: STEP_KEYS.EXPLORE_PERIPHERAL,
+  },
+  [STEP_KEYS.EXPLORE_PERIPHERAL]: {
+    run: explorePeripheral,
+    previous: STEP_KEYS.LIST_PERIPHERALS,
+    next: STEP_KEYS.EXECUTE_SERVICE,
+  },
+  [STEP_KEYS.EXECUTE_SERVICE]: {
+    run: executeService,
   },
 };
 
 class StepExecutor {
   constructor(bluetooth) {
     this.bluetooth = bluetooth;
-    this.results = {};
+    this.result = {};
   }
 
   async runAndNext() {
@@ -46,10 +60,10 @@ class StepExecutor {
     const step = STEPS[this.currentStep];
     const result = await step.run(this);
 
-    this.results[this.currentStep] = result;
     if (result && result.previousStep) {
       this.currentStep = step.previous;
     } else {
+      this.result = { ...this.result, ...result };
       this.currentStep = step.next;
     }
 
@@ -63,7 +77,12 @@ class StepExecutor {
   }
 
   async startLoading(text = 'Loading') {
-    this.loading = loading({ text, frames: ['◐', '◓', '◑', '◒'], interval: 200 }).start();
+    this.loading = loading({
+      text: colors.magenta(text),
+      frames: ['◐', '◓', '◑', '◒'],
+      interval: 200,
+      color: 'magenta',
+    }).start();
   }
 
   async stopLoading() {

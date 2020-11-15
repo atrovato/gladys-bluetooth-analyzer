@@ -9,7 +9,7 @@ const BluetoothManager = require('./gladys/server/services/bluetooth/lib');
 const quit = require('./steps/quit');
 
 // Configure service logger
-tracer.setLevel('warn');
+tracer.setLevel('error');
 
 console.clear();
 

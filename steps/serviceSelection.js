@@ -19,7 +19,7 @@ const serviceSelection = async () => {
     quit(colors.bold.red(`Service ${service} is unknown, this might be a bug!`));
   }
 
-  return serviceRunner;
+  return { service: serviceRunner };
 };
 
 module.exports = {

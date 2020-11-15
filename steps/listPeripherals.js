@@ -1,10 +1,8 @@
 const prompts = require('prompts');
 const colors = require('colors');
-const { quit } = require('./quit');
 
-const uuidToMac = (uuid) => {
-  return uuid.match(/.{1,2}/g).join(':');
-};
+const { uuidToMac } = require('../utils/printer');
+const { quit } = require('./quit');
 
 const deviceLabel = (mac, name) => {
   if (mac === name) {
@@ -21,7 +19,7 @@ const listPeripherals = async (executor) => {
     const device = executor.bluetooth.discoveredDevices[deviceKey];
     return {
       title: deviceLabel(uuidToMac(deviceKey), device.name),
-      value: device,
+      value: deviceKey,
     };
   });
 
@@ -30,16 +28,16 @@ const listPeripherals = async (executor) => {
     return { previousStep: true };
   }
 
-  const { device } = await prompts([
+  const { deviceUuid } = await prompts([
     {
       type: 'select',
-      name: 'device',
+      name: 'deviceUuid',
       message: 'Select device you want to analyse:',
       choices: devices,
     },
   ]);
 
-  if (!device) {
+  if (!deviceUuid) {
     const { previousStep } = await prompts([
       {
         type: 'confirm',
@@ -55,7 +53,7 @@ const listPeripherals = async (executor) => {
     }
   }
 
-  return device;
+  return { deviceUuid };
 };
 
 module.exports = {
