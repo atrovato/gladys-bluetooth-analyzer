@@ -8,6 +8,7 @@ const { scanPeripherals } = require('./scanPeripherals');
 const { listPeripherals } = require('./listPeripherals');
 const { explorePeripheral } = require('./explorePeripheral');
 const { executeService } = require('./executeService');
+const { summary } = require('./summary');
 
 const STEP_KEYS = {
   WELCOME: 'welcome',
@@ -16,6 +17,7 @@ const STEP_KEYS = {
   LIST_PERIPHERALS: 'list_peripherals',
   EXPLORE_PERIPHERAL: 'explore_peripheral',
   EXECUTE_SERVICE: 'execute_service',
+  SUMMARY: 'summary',
 };
 
 const STEPS = {
@@ -43,6 +45,11 @@ const STEPS = {
   },
   [STEP_KEYS.EXECUTE_SERVICE]: {
     run: executeService,
+    previous: STEP_KEYS.LIST_PERIPHERALS,
+    next: STEP_KEYS.SUMMARY,
+  },
+  [STEP_KEYS.SUMMARY]: {
+    run: summary,
   },
 };
 
