@@ -20,7 +20,7 @@ gladys.event.once(EVENTS.WEBSOCKET.SEND_ALL, ({ type, payload }) => {
   if (type === WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.STATE && payload.ready) {
     stepExecutor.run();
   } else {
-    quit(colors.bold.red('Something went wrong'));
+    stepExecutor.quit(colors.bold.red('Something went wrong'));
   }
 });
 
