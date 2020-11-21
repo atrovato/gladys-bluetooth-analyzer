@@ -39,14 +39,10 @@ const run = async (executor) => {
   const { deviceUuid } = result;
 
   executor.startLoading('Connecting to device...');
-  return await bluetooth.applyOnPeripheral(
-    deviceUuid,
-    (peripheral) => {
-      executor.stopLoading();
-      return model.run(peripheral, executor);
-    },
-    true,
-  );
+  return await bluetooth.applyOnPeripheral(deviceUuid, (peripheral) => {
+    executor.stopLoading();
+    return model.run(peripheral, executor);
+  });
 };
 
 module.exports = {
