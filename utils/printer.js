@@ -23,19 +23,40 @@ const printDevice = (device, color = 'blue') => {
   }
 };
 
+const printPeripheral = (peripheral, color = 'blue') => {
+  const { addressType, connectable, advertisement, services } = peripheral;
+  const { localName, serviceUuids } = advertisement;
+
+  console.log(colors[color](' -> Peripheral:'));
+  console.log(colors[color](`   -> Address type: ${addressType}`));
+  console.log(colors[color](`   -> Connectable: ${connectable}`));
+  console.log(colors[color]('   -> Advertisement:'));
+  console.log(colors[color](`     -> Local name: ${localName}`));
+  console.log(colors[color](`     -> Services: ${serviceUuids}`));
+
+  if (services) {
+    console.log(colors[color](`   -> Services (${services.length}):`));
+    services.forEach((service) => {
+      const { uuid, name = 'no name', characteristics } = service;
+      console.log(colors[color](`     -> ${uuid} (${name})`));
+
+      if (characteristics) {
+        console.log(colors[color](`       -> Characteristics (${characteristics.length}):`));
+        characteristics.forEach((characteristic) => {
+          const { uuid, name = 'no name', properties = [] } = characteristic;
+          console.log(colors[color](`         -> ${uuid} (${name}): ${properties}`));
+        });
+      }
+    });
+  }
+};
+
 const uuidToMac = (uuid) => {
   return uuid.match(/.{1,2}/g).join(':');
 };
 
-const printSummary = (result) => {
-  const { device, service, serviceModel } = result;
-  console.log(` -> Service: ${service.description.title}`);
-  console.log(` -> Model: ${serviceModel}`);
-  printDevice(device, 'white');
-};
-
 module.exports = {
   printDevice,
+  printPeripheral,
   uuidToMac,
-  printSummary,
 };

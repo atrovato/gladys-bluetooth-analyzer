@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/atrovato/gladys-bluetooth-analyzer#readme",
   "dependencies": {
+    "bluebird": "^3.7.2",
     "colors": "^1.4.0",
     "loading-cli": "^1.1.0",
     "prompts": "^2.4.0",

@@ -1,9 +1,8 @@
 const prompts = require('prompts');
 const colors = require('colors');
-const { printSummary } = require('../utils/printer');
 const { quit } = require('./quit');
 
-const summary = async (executor) => {
+const summary = async () => {
   const { success } = await prompts([
     {
       type: 'confirm',
@@ -19,10 +18,9 @@ const summary = async (executor) => {
     console.log(colors.bold.green('HURRAY!!!'));
     console.log(
       colors.green(
-        'Please give back following data on https://github.com/atrovato/gladys-bluetooth-analyzer/issues GitHub issues:',
+        'Please give back following data on https://github.com/atrovato/gladys-bluetooth-analyzer/issues GitHub issues',
       ),
     );
-    printSummary(executor.result);
   }
 
   quit();
