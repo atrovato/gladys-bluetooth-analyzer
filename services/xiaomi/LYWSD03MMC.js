@@ -14,7 +14,11 @@ const printValues = (value) => {
 
 const run = async (peripheral, executor) => {
   executor.startLoading(`Subscribing to ${NAME} device...`);
-  const characteristic = await getCharacteristic(peripheral, '1801', '2a05');
+  const characteristic = await getCharacteristic(
+    peripheral,
+    'ebe0ccb07a0a4b0c8a1a6ff2997da3a6',
+    'ebe0ccc17a0a4b0c8a1a6ff2997da3a6',
+  );
   await subscribe(characteristic, printValues);
   executor.stopLoading();
 
