@@ -14,7 +14,7 @@ const printValues = (value) => {
 
 const run = async (peripheral, executor) => {
   executor.startLoading(`Reading values of ${NAME} device...`);
-  const readValue = await executor.bluetooth.read(
+  const readValue = await executor.bluetooth.readDevice(
     peripheral,
     '0000120400001000800000805f9b34fb',
     '00001a0100001000800000805f9b34fb',
