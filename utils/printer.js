@@ -25,15 +25,15 @@ const printDevice = (device, color = 'blue') => {
 
 const printPeripheral = (peripheral, color = 'blue') => {
   const { addressType, connectable, advertisement, services } = peripheral;
-  const { localName, serviceUuids, serviceData } = advertisement;
+  const { localName, serviceUuids, manufacturerData } = advertisement;
 
   console.log(colors[color](' -> Peripheral:'));
   console.log(colors[color](`   -> Address type: ${addressType}`));
   console.log(colors[color](`   -> Connectable: ${connectable}`));
   console.log(colors[color]('   -> Advertisement:'));
   console.log(colors[color](`     -> Local name: ${localName}`));
+  console.log(colors[color](`     -> Manufacturer data: ${manufacturerData}`));
   console.log(colors[color](`     -> Services: ${serviceUuids}`));
-  console.log(colors[color](`     -> Service data: ${serviceData}`));
 
   if (services) {
     console.log(colors[color](`   -> Services (${services.length}):`));
