@@ -1,8 +1,9 @@
 const prompts = require('prompts');
 
 const LYWSD03MMC = require('./LYWSD03MMC');
+const FlowerCare = require('./FlowerCare');
 
-const MODELS = [LYWSD03MMC];
+const MODELS = [LYWSD03MMC, FlowerCare];
 
 const run = async (executor) => {
   const { model } = await prompts([
