@@ -23,11 +23,11 @@ const STEP_KEYS = {
 const STEPS = {
   [STEP_KEYS.WELCOME]: {
     run: welcome,
-    next: STEP_KEYS.SERVICE_SELECTION,
+    next: STEP_KEYS.SCAN_PERIPHERALS,
   },
   [STEP_KEYS.SERVICE_SELECTION]: {
     run: serviceSelection,
-    next: STEP_KEYS.SCAN_PERIPHERALS,
+    next: STEP_KEYS.EXECUTE_SERVICE,
   },
   [STEP_KEYS.SCAN_PERIPHERALS]: {
     run: scanPeripherals,
@@ -41,7 +41,7 @@ const STEPS = {
   [STEP_KEYS.EXPLORE_PERIPHERAL]: {
     run: explorePeripheral,
     previous: STEP_KEYS.LIST_PERIPHERALS,
-    next: STEP_KEYS.EXECUTE_SERVICE,
+    next: STEP_KEYS.SERVICE_SELECTION,
   },
   [STEP_KEYS.EXECUTE_SERVICE]: {
     run: executeService,

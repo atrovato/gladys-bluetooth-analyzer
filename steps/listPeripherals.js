@@ -1,15 +1,30 @@
 const prompts = require('prompts');
 const colors = require('colors');
 
+const services = require('../services');
 const { uuidToMac } = require('../utils/printer');
 const { quit } = require('./quit');
 
-const deviceLabel = (mac, name) => {
-  if (mac === name) {
-    return mac;
+const deviceLabel = (mac, device) => {
+  const { name } = device;
+
+  const displayInfo = [];
+  displayInfo.push(mac);
+
+  if (mac !== name) {
+    displayInfo.push(name);
   }
 
-  return `${mac} - ${name}`;
+  const matchingServices = Object.values(services)
+    .filter((s) => typeof s.match === 'function')
+    .filter((s) => s.match(device))
+    .map((s) => s.description.title);
+
+  if (matchingServices.length > 0) {
+    displayInfo.push(`[${matchingServices.join(', ')}]`);
+  }
+
+  return displayInfo.join(' - ');
 };
 
 const listPeripherals = async (executor) => {
@@ -18,7 +33,7 @@ const listPeripherals = async (executor) => {
   const devices = deviceKeys.map((deviceKey) => {
     const device = executor.bluetooth.discoveredDevices[deviceKey];
     return {
-      title: deviceLabel(uuidToMac(deviceKey), device.name),
+      title: deviceLabel(uuidToMac(deviceKey), device),
       value: deviceKey,
     };
   });

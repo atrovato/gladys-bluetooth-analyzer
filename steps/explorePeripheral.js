@@ -9,19 +9,6 @@ const explorePeripheral = async (executor) => {
   executor.stopLoading();
   printDevice(device);
 
-  const { next } = await prompts([
-    {
-      type: 'confirm',
-      name: 'next',
-      message: `Continue with ${service.description.title} service on this device?`,
-      initial: 'yes',
-    },
-  ]);
-
-  if (!next) {
-    return { previousStep: true };
-  }
-
   return { device };
 };
 
