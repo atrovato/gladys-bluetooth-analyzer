@@ -37,7 +37,9 @@ const printPeripheral = (peripheral, color = 'blue') => {
   console.log(colors[color](`     -> Service data (${serviceData.length}):`));
 
   serviceData.forEach((d, i) => {
-    console.log(colors[color](`       [${i}] ${d.uuid.toString('hex')} / ${d.data.toString('hex')}`));
+    console.log(
+      colors[color](`       [${i}] ${d.uuid} / ${d.productId} / ${d.data.toString('hex')} / ${d.frameControl}`),
+    );
   });
 
   if (services) {
