@@ -1,4 +1,4 @@
-const NAME = 'FlowerCare';
+const NAME = 'MiFlora';
 
 const printValues = (value) => {
   const temperature = value.readUInt16LE(0) / 10;
