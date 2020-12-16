@@ -1,5 +1,3 @@
-const { subscribe } = require('../../gladys/server/services/bluetooth/lib/utils/characteristic/bluetooth.subscribe');
-
 const NAME = 'LYWSD03MMC';
 const WAITING = 10000;
 
