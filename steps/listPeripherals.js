@@ -5,7 +5,7 @@ const services = require('../services');
 const { uuidToMac } = require('../utils/printer');
 const { quit } = require('./quit');
 
-const deviceLabel = (mac, device) => {
+const deviceLabel = (executor, mac, device) => {
   const { name } = device;
 
   const displayInfo = [];
@@ -17,7 +17,7 @@ const deviceLabel = (mac, device) => {
 
   const matchingServices = Object.values(services)
     .filter((s) => typeof s.match === 'function')
-    .filter((s) => s.match(device))
+    .filter((s) => s.match(device, executor.gladys))
     .map((s) => s.description.title);
 
   if (matchingServices.length > 0) {
@@ -33,7 +33,7 @@ const listPeripherals = async (executor) => {
   const devices = deviceKeys.map((deviceKey) => {
     const device = executor.bluetooth.discoveredDevices[deviceKey];
     return {
-      title: deviceLabel(uuidToMac(deviceKey), device),
+      title: deviceLabel(executor, uuidToMac(deviceKey), device),
       value: deviceKey,
     };
   });
