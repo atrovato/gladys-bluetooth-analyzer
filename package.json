@@ -6,7 +6,7 @@
   "scripts": {
     "preinstall": "rm -r ./gladys &2> /dev/null",
     "prepare-gladys": "mkdir gladys",
-    "get-gladys": "curl -L https://api.github.com/repos/atrovato/Gladys/tarball/bluetooth-add-info --output ./gladys/gladys.tar.gz",
+    "get-gladys": "curl -L https://api.github.com/repos/atrovato/Gladys/tarball/bluetooth-upgrade-lib --output ./gladys/gladys.tar.gz",
     "uncompress-utils": "cd ./gladys && tar xzf ./gladys.tar.gz --wildcards \"*/server/utils\" --strip-components=1",
     "uncompress-bluetooth": "cd ./gladys && tar xzf ./gladys.tar.gz --wildcards \"*/server/services/bluetooth\" --strip-components=1",
     "uncompress-gladys": "npm run uncompress-utils && npm run uncompress-bluetooth",

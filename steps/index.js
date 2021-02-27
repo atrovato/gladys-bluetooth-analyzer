@@ -54,8 +54,9 @@ const STEPS = {
 };
 
 class StepExecutor {
-  constructor(bluetooth) {
+  constructor(bluetooth, gladys) {
     this.bluetooth = bluetooth;
+    this.gladys = gladys;
     this.result = {};
   }
 

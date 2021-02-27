@@ -14,7 +14,8 @@ tracer.setLevel('error');
 console.clear();
 
 const bluetooth = new BluetoothManager(gladys, 'BLUETOOTH_SERVICE');
-const stepExecutor = new StepExecutor(bluetooth);
+gladys.services.setService('bluetooth', bluetooth);
+const stepExecutor = new StepExecutor(bluetooth, gladys);
 
 gladys.event.once(EVENTS.WEBSOCKET.SEND_ALL, ({ type, payload }) => {
   if (type === WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.STATE && payload.ready) {
