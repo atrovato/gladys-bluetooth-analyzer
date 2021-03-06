@@ -1,8 +1,36 @@
 const prompts = require('prompts');
 const colors = require('colors');
+const { DEVICE_PARAMS: AWOX_PARAMS, DEVICE_TYPES } = require('./lib/utils/awox.constants');
+const { DEVICE_PARAMS } = require('./lib/handlers/mesh/awox.mesh.constants');
+const { setDeviceParam } = require('../../utils/setDeviceParam');
 
-const exec = async (awox, awoxDevice) => {
-  const { features } = awoxDevice;
+const exec = async (awox, awoxDevice, bluetooth, deviceUuid) => {
+  const { features, params } = awoxDevice;
+
+  const credentialParam = params.find((p) => p.name === AWOX_PARAMS.DEVICE_TYPE);
+  const { value: awoxType } = credentialParam || {};
+  const { sessionKey } = bluetooth.getPeripheral(deviceUuid) || {};
+  if (awoxType !== DEVICE_TYPES.LEGACY && !sessionKey) {
+    const { name } = await prompts([
+      {
+        type: 'text',
+        name: 'name',
+        message: 'Enter Mesh device name:',
+      },
+    ]);
+
+    setDeviceParam(awoxDevice, DEVICE_PARAMS.MESH_NAME, name);
+
+    const { password } = await prompts([
+      {
+        type: 'text',
+        name: 'password',
+        message: 'Enter Mesh device password:',
+      },
+    ]);
+
+    setDeviceParam(awoxDevice, DEVICE_PARAMS.MESH_PASSWORD, password);
+  }
 
   const { feature } = await prompts([
     {
@@ -46,7 +74,7 @@ const exec = async (awox, awoxDevice) => {
   ]);
 
   if (again) {
-    return exec(awox, awoxDevice);
+    return exec(awox, awoxDevice, bluetooth, deviceUuid);
   }
 
   return again;

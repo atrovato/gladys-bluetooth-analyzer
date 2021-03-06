@@ -1,4 +1,5 @@
 const logger = require('../../../../../utils/logger');
+const { DEVICE_PARAMS, DEVICE_TYPES } = require('./../../utils/awox.constants');
 const { DEVICE_MODEL_FEATURES } = require('./utils/awox.legacy.constants');
 /**
  * @description Transform Bluetooth device to AwoX legacy.
@@ -16,7 +17,10 @@ function getDevice(device) {
     return { ...feature };
   });
 
-  return { ...device, features };
+  return {
+    ...device,
+    features,
+  };
 }
 
 module.exports = {

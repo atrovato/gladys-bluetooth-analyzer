@@ -7,7 +7,9 @@ const handlers = require('../handlers');
  */
 function init() {
   this.bluetooth = this.gladys.services.getService('bluetooth');
-  this.handlers = handlers.map((handlerClass) => new handlerClass(this.gladys, this.bluetooth));
+  Object.keys(handlers).forEach(
+    (awoxType) => (this.handlers[awoxType] = new handlers[awoxType](this.gladys, this.bluetooth)),
+  );
 }
 
 module.exports = {

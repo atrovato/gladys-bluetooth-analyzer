@@ -6,7 +6,9 @@
  * awox.isSupportedDevice({ name: 'awox' });
  */
 function isSupportedDevice(device) {
-  return this.handlers.some((handler) => handler.isSupportedDevice(device));
+  const [, peripheralUuid] = device.external_id.split(':');
+  const manufacturerData = this.decodeManufacturerData(peripheralUuid);
+  return Object.values(this.handlers).some((handler) => handler.isSupportedDevice(device, manufacturerData));
 }
 
 module.exports = {
