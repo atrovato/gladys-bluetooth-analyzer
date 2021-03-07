@@ -9,7 +9,7 @@ const { DEVICE_MODEL_KEYS } = require('./utils/awox.mesh.ble.constants');
  * bleMesh.isSupportedDevice({ name: 'awox' });
  */
 function isSupportedDevice(device, manufacturerData) {
-  return Object.values(manufacturerData).find((val) => DEVICE_MODEL_KEYS.includes(val.type));
+  return DEVICE_MODEL_KEYS.includes(manufacturerData.model);
 }
 
 module.exports = {

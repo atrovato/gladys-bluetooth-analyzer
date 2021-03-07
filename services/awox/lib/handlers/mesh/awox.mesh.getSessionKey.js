@@ -1,6 +1,3 @@
-const { setDeviceParam } = require('../../../../../utils/setDeviceParam');
-
-const { DEVICE_PARAMS } = require('./awox.mesh.constants');
 const { extractCredentials } = require('./awox.mesh.utils');
 
 /**

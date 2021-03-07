@@ -31,7 +31,7 @@ function encrypt(key, value) {
  */
 function encryptCommand(command, sessionKey) {
   const encrypted = encrypt(sessionKey, command.slice(1));
-  return Buffer.concat(command.slice(0, 1), encrypted, tmp.slice(16));
+  return Buffer.concat([command.slice(0, 1), encrypted]);
 }
 
 /**

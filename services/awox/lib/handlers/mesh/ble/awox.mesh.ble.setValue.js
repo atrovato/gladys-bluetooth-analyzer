@@ -24,7 +24,7 @@ async function setValue(device, deviceFeature, value) {
     peripheralUuid,
     async (peripheral) => {
       // Get or generate session key
-      const sessionKey = await this.getSessionKey(device, peripheral, false);
+      const sessionKey = await this.getSessionKey(device, peripheral);
       const packet = generateCommandPacket(peripheralUuid, sessionKey, actionCommand);
       logger.debug(`AwoX - BLEMesh: set device packet: ${packet.toString('hex')}`);
 

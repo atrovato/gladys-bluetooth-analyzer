@@ -113,7 +113,7 @@ function cryptPayload(key, nonce, payload) {
 function generatePairCommand(meshName, meshPassword, sessionRandom) {
   const namePassBuffer = nameAndPasswordEncrypt(meshName, meshPassword);
   const encrypted = encrypt(sessionRandom, namePassBuffer);
-  return Buffer.concat([Buffer.from([0x0c]), sessionRandom, encrypted]);
+  return Buffer.concat([Buffer.from([0x0c]), sessionRandom, encrypted.slice(0, 8)]);
 }
 
 /**

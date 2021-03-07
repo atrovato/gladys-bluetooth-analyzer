@@ -1,47 +1,29 @@
-const logger = require('../../../../utils/logger');
-
 function decodeManufacturerData(peripheralUuid) {
   const peripheral = this.bluetooth.getPeripheral(peripheralUuid);
 
-  if (!peripheral) {
-    return {};
-  }
-
   const { advertisement = {} } = peripheral;
   const { manufacturerData = [] } = advertisement;
-
   const dataLength = manufacturerData.length;
-  let i = 0;
-  let b;
-  let result = {};
 
-  while (i < dataLength) {
-    b = manufacturerData[i];
-
-    if (b === 0) {
-      break;
-    }
-
-    let i2 = i + b;
-    if (i2 < dataLength) {
-      let b2 = manufacturerData[i + 1];
-
-      if (b2 != -1 || result[b2] === undefined || result[b2].data.length <= b - 1) {
-        let i3 = b - 1;
-        const subData = Buffer.allocUnsafe(i3);
-        manufacturerData.copy(subData, i + 2, 0, i3);
-        result[b2] = { length: b, type: b2, data: subData };
-      }
-    } else {
-      i2 = i;
-    }
-
-    i = i2 + 1;
+  let data;
+  if (dataLength <= 8) {
+    return {};
+  } else if (dataLength < 29) {
+    data = manufacturerData;
+  } else if (manufacturerData[0] != 96 || manufacturerData[1] != 1) {
+    return {};
+  } else {
+    data = Buffer.alloc(29);
+    manufacturerData.copy(data, 0, 0, 2);
+    manufacturerData.copy(data, 2, 4, 8);
+    data[6] = -63;
+    data[7] = -92;
+    manufacturerData.copy(data, 8, 2, 4);
+    manufacturerData.copy(data, 10, 8, 11);
+    manufacturerData.copy(data, 13, 13, 29);
   }
 
-  logger.debug(`AwoX: ${peripheralUuid} decoded manufacturer data`, manufacturerData, result);
-
-  return result;
+  return { data, model: data.readUInt16LE(8) };
 }
 
 module.exports = {

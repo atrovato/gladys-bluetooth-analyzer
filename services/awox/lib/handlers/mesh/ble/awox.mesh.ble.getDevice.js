@@ -14,8 +14,9 @@ const { DEVICE_PARAMS, DEVICE_TYPES } = require('../../../utils/awox.constants')
 function getDevice(device, manufacturerData) {
   logger.debug(`AwoX - BLEMesh: getting '${device.name}' AwoX device...`);
 
-  const mData = Object.values(manufacturerData).find((val) => DEVICE_MODEL_KEYS.includes(val.type));
-  const deviceGroup = Object.keys(DEVICE_MODEL_GROUPS).find((group) => DEVICE_MODEL_GROUPS[group].includes(mData.type));
+  const deviceGroup = Object.keys(DEVICE_MODEL_GROUPS).find((group) =>
+    DEVICE_MODEL_GROUPS[group].includes(manufacturerData.model),
+  );
   const features = (DEVICE_MODEL_FEATURES[deviceGroup] || []).map((feature) => {
     return { ...feature };
   });
