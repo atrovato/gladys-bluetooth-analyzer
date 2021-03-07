@@ -1,7 +1,7 @@
-const { DEVICE_MODELS } = require('./utils/awox.legacy.constants');
+const { DEVICE_MODEL_KEYS } = require('./utils/awox.legacy.constants');
 
 /**
- * @description Is the device legacy comptatible?
+ * @description Is the device legacy compatible?
  * @param {Object} device - Gladys device.
  * @returns {boolean} Is the device compatible?
  * @example
@@ -9,7 +9,8 @@ const { DEVICE_MODELS } = require('./utils/awox.legacy.constants');
  */
 function isSupportedDevice(device) {
   const { model, name } = device;
-  return DEVICE_MODELS.includes(model || name);
+  const key = model || name || '';
+  return DEVICE_MODEL_KEYS.includes(key);
 }
 
 module.exports = {

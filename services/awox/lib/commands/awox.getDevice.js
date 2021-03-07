@@ -1,6 +1,7 @@
 const { NotFoundError } = require('../../../../utils/coreErrors');
 const { setDeviceParam } = require('../../../../utils/setDeviceParam');
 const { DEVICE_PARAMS } = require('../utils/awox.constants');
+const { generateFeature } = require('../utils/awox.features');
 
 /**
  * @description Get device from Bluetooth service and adapt it as AwoX device.
@@ -22,7 +23,10 @@ function getDevice(peripheralUuid) {
     throw new Error(`AwoX: No handler matching device ${peripheralUuid}`);
   }
 
-  const awoxDevice = this.handlers[awoxType].getDevice(device, manufacturerData);
+  const awoxDeviceTemplate = this.handlers[awoxType].getDevice(device, manufacturerData);
+  const deviceFeatures = awoxDeviceTemplate.features.map((feature) => generateFeature(feature, device.external_id));
+
+  const awoxDevice = { ...awoxDeviceTemplate, features: deviceFeatures };
   setDeviceParam(awoxDevice, DEVICE_PARAMS.DEVICE_TYPE, awoxType);
   return awoxDevice;
 }
