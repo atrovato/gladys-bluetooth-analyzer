@@ -27,7 +27,7 @@ function encrypt(key, value) {
  * @param {Array} sessionKey - Session key.
  * @returns {Array} Encrypted command.
  * @example
- * encryptCommand({ type: 'binary' ...}, 1);
+ * encryptCommand([ 0x01, 0x02 ], [ 0x03, 0x04 ]);
  */
 function encryptCommand(command, sessionKey) {
   const encrypted = encrypt(sessionKey, command.slice(1));

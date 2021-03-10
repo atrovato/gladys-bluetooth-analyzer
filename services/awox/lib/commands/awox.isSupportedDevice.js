@@ -1,3 +1,5 @@
+const { decodeManufacturerData } = require('../utils/awox.decodeManufacturerData');
+
 /**
  * @description Loop over available hanlders to check if device is supported by AwoX.
  * @param {Object} device - Gladys device.
@@ -7,7 +9,8 @@
  */
 function isSupportedDevice(device) {
   const [, peripheralUuid] = device.external_id.split(':');
-  const manufacturerData = this.decodeManufacturerData(peripheralUuid);
+  const peripheral = this.bluetooth.getPeripheral(peripheralUuid);
+  const manufacturerData = decodeManufacturerData(peripheral);
   return Object.values(this.handlers).some((handler) => handler.isSupportedDevice(device, manufacturerData));
 }
 

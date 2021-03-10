@@ -2,6 +2,7 @@ const { NotFoundError } = require('../../../../utils/coreErrors');
 const { setDeviceParam } = require('../../../../utils/setDeviceParam');
 const { DEVICE_PARAMS } = require('../utils/awox.constants');
 const { generateFeature } = require('../utils/awox.features');
+const { decodeManufacturerData } = require('../utils/awox.decodeManufacturerData');
 
 /**
  * @description Get device from Bluetooth service and adapt it as AwoX device.
@@ -15,7 +16,8 @@ function getDevice(peripheralUuid) {
     throw new NotFoundError(`AwoX: No Bluetooth ${peripheralUuid} device found`);
   }
 
-  const manufacturerData = this.decodeManufacturerData(peripheralUuid);
+  const peripheral = this.bluetooth.getPeripheral(peripheralUuid);
+  const manufacturerData = decodeManufacturerData(peripheral);
   const awoxType = Object.keys(this.handlers).find((type) =>
     this.handlers[type].isSupportedDevice(device, manufacturerData),
   );

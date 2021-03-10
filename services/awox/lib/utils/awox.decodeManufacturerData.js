@@ -1,12 +1,10 @@
-function decodeManufacturerData(peripheralUuid) {
-  const peripheral = this.bluetooth.getPeripheral(peripheralUuid);
-
+function decodeManufacturerData(peripheral) {
   const { advertisement = {} } = peripheral;
   const { manufacturerData = [] } = advertisement;
   const dataLength = manufacturerData.length;
 
   let data;
-  if (dataLength <= 8) {
+  if (dataLength <= 9) {
     return {};
   } else if (dataLength < 29) {
     data = manufacturerData;
